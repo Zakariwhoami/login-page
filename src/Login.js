@@ -4,20 +4,21 @@ import logo from "../src/img/edusaf1.png";
 import logo2 from "../src/img/ITN.png";
 import { useState } from 'react';
 import { useEffect } from 'react';
- 
-function App() {
+
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isAdmin, setIsAdmin] = useState();
-  const [emailadmin, setEmailadmin] = useState('');
+  const [isFocus, setIsFocus] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const [inputvalue, setInputValue] = useState('');
+  const [inputvalued, setInputValued] = useState('');
+  const [textFieldValue, setTextFieldValue] = useState('');
   const navigate = useNavigate();
 
-  useEffect(()=>{
-     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>:::: ',isAdmin)
-  },[isAdmin,setIsAdmin])
-
+  
   const handleLogin = (e) => {
     e.preventDefault();
 
@@ -27,7 +28,7 @@ function App() {
     } else if (email === 'admin' && password === 'admin') {
       setIsAdmin(true)
 
-      console.log('admin login!!::::::::::: '+isAdmin)
+      console.log('admin login!!::::::::::: ' + isAdmin)
 
       setError('');
       setSuccess('Login Successful!');
@@ -40,7 +41,7 @@ function App() {
       //   navigate("/Messageboard", {state: { isAdmin: true}});
       //   console.log('mean: ', isAdmin);
       // }, 1500);
-    } else if (email.includes('@') && email.includes('.')){
+    } else if (email.includes('@') && email.includes('.')) {
       setIsAdmin(false);
 
       setError('try again');
@@ -52,7 +53,7 @@ function App() {
       console.log('Password::::::: ', password);
 
       setTimeout(() => {
-        navigate("/Messageboard", { state: { isAdmin: false}});
+        navigate("/Messageboard", { state: { isAdmin: false } });
 
         console.log(isAdmin);
       }, 1500);
@@ -67,47 +68,45 @@ function App() {
 
   const switchlog = () => {
     navigate("/Login");
-    console.log('SWITCHING LOG BACKGROUND');
-    setError('SWITCHING LOG BACKGROUND');
-    
+    console.log('SWITCHING LOG BACKGROUND')
+
+  };
+  const resetpassword = () => {
+    navigate('/Signup');
   };
 
 
   return (
-    <div className="App bg-gray-100">
+    <div className="App bg-blue-50 min-h-screen">
       {success && <p className="text-green-600 text-center">{success}</p>}
       {error && <p className="text-red-600 text-center">{error}</p>}
-      
-      <div className="flex items-center justify-center pt-24 md:pt-0  md:min-h-screen  ">
-        <form onSubmit={handleLogin} className="grid grid-flow-row px-5 py-14  w-96 rounded-xl shadow-2xl mx-10 bg-white">
-          {/* <div className="">
-            {view && <div className="">
-              {view}
-            </div>}
-          </div> */}
-          <div className="grid items-center justify-center">
-            <img className="w-20" src={logo2} alt="" />
-          </div>
-          <p className="text-xs text-center py-2 font-medium text-blue-950 mt-3 italic">
-            ITN distribution data
-          </p>
-          <div className="">
-            <p className="text-2xl my-5 capitalize">Sign in</p>
-          </div>
+
+      <div className="flex items-center justify-center ">
+        <p className="text-xl text-center font-mono text-blue-950 mt-1">
+          Welcome Back
+        </p>
+      </div> 
+      <div className="flex items-center justify-center pt-3 py-15 md:pt-0  md:min-h-screen">
+        <form onSubmit={handleLogin} className="grid grid-flow-row px-5 py-6  w-96 rounded-xl shadow-2xl mx-10 bg-white">
+
           <div className="grid grid-flow-row ">
-            <label htmlFor="email">Email Address</label>
+            <label htmlFor="email" content='inline' >Email Address</label>
             <input
               name="email"
               value={email}
               required
               placeholder="Email address"
-              className="outline-none p-1.5 rounded-md border border-gray-300"
+              className={`outline-none p-1.5 rounded-md border border-gray-300 focus:ring-0 
+                ${isFocus ? "border-blue-600" : "border-gray-400"}`}
               onChange={(e) => setEmail(e.target.value)}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(inputvalue !== "")}
+              
             />
-            
+
           </div>
 
-          <div className="grid grid-flow-row my-3 ">
+          <div className="grid grid-flow-row my-1 ">
             <label htmlFor="password">Password</label>
             <input
               type="password"
@@ -115,28 +114,27 @@ function App() {
               value={password}
               required
               placeholder="Password"
-              className="outline-none p-1.5 rounded-md border border-gray-300"
+              className={`outline-none p-1.5 rounded-md border border-gray-300 focus:ring-0 
+                ${isFocused ? "border-blue-600" : "border-gray-400"}`}
               onChange={(e) => setPassword(e.target.value)}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(inputvalued !== "")}
             />
           </div>
 
-          <div className="grid grid-flow-row justify-center items-center">
-            <button type='submit' className="bg-blue-950 min-w-full text-white mt-5  px-10 py-1 rounded-md shadow-xl">
+          <div className="grid grid-flow-row ">
+            <button type='submit' className="bg-gray-300 min-w-full text-white mt-3  px-10 py-2 rounded-md">
               Sign in
             </button>
-            <p className="my-2 text-xs hover:cursor-pointer">
-              I Don't Have an Account <span onSubmit={createAccount} className="text-blue-600 items-center mt-2 justify-center hover:text-blue-900 underline cursor-pointer" onClick={createAccount}>
-                Create Account
-              </span>
-            </p>
+
           </div>
-          <div className="flex items-center justify-center mx-2 my-3 ">
-            <button onClick={switchlog} className="hover:bg-red-300 py-1 px-10 rounded-md  bg-white text-red-600">SWITCH</button>
-          </div>
+          <button onClick={resetpassword} className="bg-white min-w-full text-gray-400 mt-3 px-10 py-2 rounded-md border border-gray-300">
+            Reset Password
+          </button>
         </form>
       </div>
     </div>
   );
 }
 
-export default App;
+export default Login;

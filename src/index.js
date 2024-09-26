@@ -4,6 +4,9 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import Dashboard from './Dashboard';
 import Signup from './Signup';
+import Messageboard from './Messageboard';
+import Submit from './Submit';
+import Login from './Login';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,8 +17,12 @@ root.render(
   <Router>
     <Routes>
       <Route path="/" element={<App />} />
-      <Route path="/Dashboard" element={<Dashboard />} />
+      <Route path="Messageboard/Dashboard" element={<Dashboard />} />
       <Route path="/Signup" element={<Signup />} />
+      <Route path="/Messageboard" element={<Messageboard />} />
+      <Route path="Messageboard/Dashboard/Submit" element={<Submit/>} />
+      <Route path="/Login" element={<Login/>} />
+      <Route path="/Login" element={<Login/>} />
     </Routes>
   </Router>
   
